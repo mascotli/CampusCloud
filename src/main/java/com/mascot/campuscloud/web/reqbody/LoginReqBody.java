@@ -10,7 +10,7 @@ public class LoginReqBody {
 	private String username;
 
 	@NotNull
-	@Size(min = 5, max = 16)
+	@Size(min = 32, max = 32)
 	private String password;
 
 	public LoginReqBody() {

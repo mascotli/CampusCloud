@@ -33,7 +33,7 @@
 		<div class="row layout-header">
 			<!-- LOGO -->
 			<div class="col-xs-2" style="text-align: center;">
-				<h3 class="logo">一个<img src="img/favicon/cloud.png" />网盘</h3>
+				<h3 class="logo">校园<img src="img/favicon/cloud.png" />网盘</h3>
 			</div>
 
 
@@ -369,7 +369,7 @@
     	/* 判断是否需要重定向 */
     	$(document).ajaxError(function(event,xhr) {
     		if (xhr.status == 401) {
-    			alert("登录已失效，请重新登录");
+    			// alert("登录已失效，请重新登录");
     			top.location = "http://localhost:8080/CampusCloud/";
     			return false;  
     		}

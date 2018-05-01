@@ -32,6 +32,8 @@ public class LoginController {
 			throws NoSuchUserException, IncorrectPasswordException {
 		String token = userService.login(reqBody.getUsername(), reqBody.getPassword());
 
+		// 保存 token和userid 实现在线上人数统计/单点登录/登出/...
+		
 		Map<String, Object> result = new HashMap<>();
 		result.put("token", token);
 		return result;

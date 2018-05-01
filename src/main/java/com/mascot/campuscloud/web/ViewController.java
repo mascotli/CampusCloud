@@ -19,4 +19,10 @@ public class ViewController {
 		return new ModelAndView("home");
 	}
 
+	@RequestMapping(value = "*", method = { RequestMethod.GET, RequestMethod.POST, RequestMethod.DELETE, RequestMethod.HEAD,
+			RequestMethod.OPTIONS, RequestMethod.PATCH, RequestMethod.PUT, RequestMethod.TRACE })
+	public ModelAndView other() {
+		return new ModelAndView("errors/other");
+	}
+
 }

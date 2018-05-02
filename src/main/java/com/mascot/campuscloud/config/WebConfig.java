@@ -20,6 +20,7 @@ import com.alibaba.fastjson.support.config.FastJsonConfig;
 import com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter;
 import com.mascot.campuscloud.Marker4ComponentScan;
 import com.mascot.campuscloud.web.filter.AuthorizationInterceptor;
+import com.mascot.campuscloud.web.filter.LoginInterceptor;
 
 @Configuration
 // @ComponentScan("com.mascot.campuscloud.web")
@@ -78,6 +79,11 @@ public class WebConfig implements WebMvcConfigurer {
 	public AuthorizationInterceptor authorizationInterceptor() {
 		return new AuthorizationInterceptor();
 	}
+	
+	@Bean
+	public LoginInterceptor loginInterceptor() {
+		return new LoginInterceptor();
+	}
 
 	/**
 	 * 配置拦截器
@@ -85,6 +91,7 @@ public class WebConfig implements WebMvcConfigurer {
 	@Override
 	public void addInterceptors(InterceptorRegistry registry) {
 		registry.addInterceptor(authorizationInterceptor()).addPathPatterns("/api/v1/users/**");
+		registry.addInterceptor(loginInterceptor()).addPathPatterns("/home").addPathPatterns("/home/");
 	}
 
 }

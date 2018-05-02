@@ -6,7 +6,7 @@ import com.mascot.campuscloud.dao.entity.LocalFileDO;
 
 public interface FileService {
 	/** 服务端保存所有文件的根路径 */
-	String FILE_BASE = "Programming/Java/apache-tomcat-8.5.23/webapps/CampusCloud_Upload" + File.separator;
+	String FILE_BASE = "../../../../CampusCloud_Upload/" + File.separator;
 	/** 所有上传文件URL的根 */
 	String URL_ROOT = "http://localhost:8080/CampusCloud_Upload/";
 

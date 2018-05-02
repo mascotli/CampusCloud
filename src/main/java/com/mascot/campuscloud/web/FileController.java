@@ -38,7 +38,7 @@ public class FileController {
 	@Autowired
 	private ParamChecker paramChecker;
 	/** 分块文件的大小，与前端保持一致 */
-	private static final long MAX_CHUNK_SIZE = 102400;
+	private static final long MAX_CHUNK_SIZE = (1 << 20) * 64;  // 64MB
 
 	/**
 	 * 功能：接收分块上传的文件块 示例：POST api/v1/users/admin/disk/files
@@ -51,11 +51,14 @@ public class FileController {
 		String contentRange = req.getHeader("content-range");
 
 		/* 检查云盘存储空间是否足够 */
-		long size;
+		// long size;
+		String size;
 		if (contentRange != null) {
-			size = Long.parseLong(contentRange.split("/")[1]);
+			// size = Long.parseLong(contentRange.split("/")[1]);
+			size = contentRange.split("/")[1];
 		} else {
-			size = part.getSize();
+			// size = part.getSize();
+			size = Long.toString(part.getSize());
 		}
 		if (!paramChecker.isUserStorageEnough(reqbody.getUserID(), size)) {
 			throw new IllegalArgumentException("Not enough storage to upload this file");
@@ -74,7 +77,7 @@ public class FileController {
 			FileDO file = new FileDO();
 			file.setMd5(reqbody.getMd5());
 			file.setType(part.getHeader("content-type"));
-			file.setSize(size);
+			file.setSize(Long.parseLong(size));
 			LocalFileDO localFile = modelMapper.map(reqbody, LocalFileDO.class);
 			uploadService.savePart(part, reqbody.getMd5());
 			return uploadService.serveLastPart(localFile, file);

@@ -1,5 +1,5 @@
 /* 实现文件上传功能 */
-var capacity = 1024*1024*10;
+var capacity = 1024 * 1024 * 1024 * 1024 * 2;  // 2TB
 $(function() {
 	$("#btn_transfer").click(function() {
 		$('[role="presentation"][class="active"]').removeClass("active");
@@ -7,7 +7,7 @@ $(function() {
 	});
 	$("#fileupload").fileupload({
 		url:"http://localhost:8080/CampusCloud/api/v1/users/"+sessionStorage.getItem("user_username")+"/disk/files",
-		maxChunkSize: 102400,
+		maxChunkSize: 1024 * 1024 * 64,
 		add: function(e, data) {
 			$("#modal_btn_submit").click(addFile.bind(null, e, data, this));/* 调用带参函数的正确写法 */
 		},

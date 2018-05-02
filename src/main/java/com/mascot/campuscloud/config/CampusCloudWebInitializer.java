@@ -1,5 +1,6 @@
 package com.mascot.campuscloud.config;
 
+import java.io.File;
 import java.nio.charset.StandardCharsets;
 
 import javax.servlet.FilterRegistration;
@@ -13,9 +14,28 @@ import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatche
 
 public class CampusCloudWebInitializer extends AbstractAnnotationConfigDispatcherServletInitializer {
 
+	private String MULTIPART_LOCATION = "";
+	private long MULTIPART_MAX_FILE_SIZE = -1L;
+	private long MULTIPART_MAX_REQUEST_SIZE = -1L;
+	private int MULTIPART_FILE_SIZE_THRESHOLD = 0;
+
+	{
+		String systmpdir = System.getProperty("java.io.tmpdir");
+		MULTIPART_LOCATION = systmpdir + File.separator + "CampusCloud" + File.separator;
+		File campuscloud = new File(MULTIPART_LOCATION);
+		if (campuscloud.isFile()) {
+			// throw new Exception("工程需要的是文件夹" + campuscloud.getAbsolutePath() + ",但您的文件夹是文件");
+			System.exit(-1);
+		}
+		if (!campuscloud.exists()) {
+			campuscloud.mkdirs();
+		}
+	}
+
 	@Override
 	protected void customizeRegistration(Dynamic registration) {
-		registration.setMultipartConfig(new MultipartConfigElement("tmp"));
+		registration.setMultipartConfig(new MultipartConfigElement(MULTIPART_LOCATION, MULTIPART_MAX_FILE_SIZE,
+				MULTIPART_MAX_REQUEST_SIZE, MULTIPART_FILE_SIZE_THRESHOLD));
 	}
 
 	/**

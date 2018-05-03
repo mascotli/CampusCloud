@@ -1,6 +1,6 @@
 /* 计算已用空间所占百分比 */
 function getUsedPercentage(bytes) {
-    var percentage = Math.round(bytes / ((1 << 40) * 2) * 100);  // 2TB
+    var percentage = Math.round(bytes / ((1 << 20) * (1 << 20) * 2) * 100);  // 2TB
     // var percentage = Math.round(bytes / (1024 * 1024 * 1024 * 1024 * 2) * 100);  // 2TB
     return percentage + "%";
 }

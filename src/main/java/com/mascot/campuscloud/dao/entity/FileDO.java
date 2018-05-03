@@ -26,7 +26,7 @@ public class FileDO {
 	private String md5;
 
 	@Column(name = "size", nullable = false)
-	private Long size;
+	private Long size;	
 
 	@Column(name = "type", nullable = false)
 	private String type;

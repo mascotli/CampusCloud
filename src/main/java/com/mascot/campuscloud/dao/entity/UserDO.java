@@ -36,7 +36,7 @@ public class UserDO {
 
 	@Column(name = "used_capacity", nullable = false)
 	private Long usedCapacity;
-
+	
 	@Column(name = "safe_password")
 	private String safePassword;
 

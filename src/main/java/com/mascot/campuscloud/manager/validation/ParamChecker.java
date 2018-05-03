@@ -30,12 +30,14 @@ public class ParamChecker {
 	/**
 	 * @return {@code true} if user has enough storage, {@code false} otherwise
 	 */
+	@Deprecated
+	@Transactional(readOnly = true)
 	public boolean isUserStorageEnough(long userID, String size) {
 		// TODO Auto-generated method stub
 		UserDO user = userDAO.get(userID);
 		BigInteger totalSize = BigInteger.valueOf(1024L * 1024L * 2L).multiply(BigInteger.valueOf(1024L * 1024L));
 		BigInteger biSize = new BigInteger(size, 10);
-		BigInteger biUsedCapacity = new BigInteger(user.getUsedCapacity(), 10);
+		BigInteger biUsedCapacity = BigInteger.valueOf(user.getUsedCapacity());  // new BigInteger(user.getUsedCapacity(), 10);
 		if (1 == biUsedCapacity.add(biSize).compareTo(totalSize)) {
 			return false;
 		}

@@ -12,6 +12,8 @@ import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.DefaultServletHandlerConfigurer;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
+import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
@@ -28,20 +30,31 @@ import com.mascot.campuscloud.web.filter.LoginInterceptor;
 @EnableWebMvc
 public class WebConfig implements WebMvcConfigurer {
 
-	@Bean
-	public ViewResolver viewResolver() {
-		InternalResourceViewResolver resolver = new InternalResourceViewResolver();
-		resolver.setPrefix("/WEB-INF/views/");
-		resolver.setSuffix(".html");
-		return resolver;
-	}
-
 	/**
 	 * 对静态资源的请求转发到Servlet容器中默认的Servlet上，而不使用DispatcherServlet处理该类请求
 	 */
-	@Override
-	public void configureDefaultServletHandling(DefaultServletHandlerConfigurer configurer) {
+	 @Override
+	 public void configureDefaultServletHandling(DefaultServletHandlerConfigurer configurer) {
 		configurer.enable();
+	 }
+
+	@Override
+	public void addResourceHandlers(ResourceHandlerRegistry registry) {  // bug here 
+//		registry.addResourceHandler("/css/**").addResourceLocations("/css/").setCachePeriod(31556926);
+//		registry.addResourceHandler("/fonts/**").addResourceLocations("/fonts/").setCachePeriod(31556926);
+//		registry.addResourceHandler("/img/**").addResourceLocations("/img/").setCachePeriod(31556926);
+//		registry.addResourceHandler("/js/**").addResourceLocations("/js/").setCachePeriod(31556926);
+//		registry.addResourceHandler("/CampusCloud_Upload/**").addResourceLocations("/CampusCloud_Upload/");
+		// WebMvcConfigurer.super.addResourceHandlers(registry);
+	}
+
+	@Override
+	public void addViewControllers(ViewControllerRegistry registry) {
+		registry.addViewController("/").setViewName("login");
+		registry.addViewController("/home").setViewName("home");
+		registry.addViewController("/other").setViewName("errors/other");
+		registry.addViewController("/404").setViewName("errors/404");
+		// registry.addViewController("/**").setViewName("errors/other");
 	}
 
 	@Override
@@ -79,10 +92,18 @@ public class WebConfig implements WebMvcConfigurer {
 	public AuthorizationInterceptor authorizationInterceptor() {
 		return new AuthorizationInterceptor();
 	}
-	
+
 	@Bean
 	public LoginInterceptor loginInterceptor() {
 		return new LoginInterceptor();
+	}
+
+	@Bean
+	public ViewResolver viewResolver() {
+		InternalResourceViewResolver resolver = new InternalResourceViewResolver();
+		resolver.setPrefix("/WEB-INF/views/");
+		resolver.setSuffix(".html");
+		return resolver;
 	}
 
 	/**
@@ -91,7 +112,7 @@ public class WebConfig implements WebMvcConfigurer {
 	@Override
 	public void addInterceptors(InterceptorRegistry registry) {
 		registry.addInterceptor(authorizationInterceptor()).addPathPatterns("/api/v1/users/**");
-		registry.addInterceptor(loginInterceptor()).addPathPatterns("/home").addPathPatterns("/home/");
+		registry.addInterceptor(loginInterceptor()).addPathPatterns("/home", "/home/**");
 	}
 
 }

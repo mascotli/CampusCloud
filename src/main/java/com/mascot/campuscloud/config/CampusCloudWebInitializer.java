@@ -9,9 +9,11 @@ import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRegistration.Dynamic;
 
+import org.springframework.context.annotation.Configuration;
 import org.springframework.web.filter.CharacterEncodingFilter;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
+@Configuration
 public class CampusCloudWebInitializer extends AbstractAnnotationConfigDispatcherServletInitializer {
 
 	private String MULTIPART_LOCATION = "";
@@ -36,6 +38,7 @@ public class CampusCloudWebInitializer extends AbstractAnnotationConfigDispatche
 	protected void customizeRegistration(Dynamic registration) {
 		registration.setMultipartConfig(new MultipartConfigElement(MULTIPART_LOCATION, MULTIPART_MAX_FILE_SIZE,
 				MULTIPART_MAX_REQUEST_SIZE, MULTIPART_FILE_SIZE_THRESHOLD));
+		registration.setInitParameter("throwExceptionIfNoHandlerFound","true");  // 404异常开启
 	}
 
 	/**
@@ -44,7 +47,7 @@ public class CampusCloudWebInitializer extends AbstractAnnotationConfigDispatche
 	@Override
 	protected Class<?>[] getRootConfigClasses() {
 		System.out.println("root context initialized");
-		return new Class<?>[] { RootConfig.class };
+		return new Class<?>[] { RootConfig.class, RedisConfig.class};
 	}
 
 	/**

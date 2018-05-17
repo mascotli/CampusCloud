@@ -42,16 +42,17 @@
 
 	<!-- 由于用了springmvc框架，日志配置好后，会输出很多spring日志，在log4j.xml中，增加一段配置，修改spring包的日志输出级别 -->
 	<!-- 通过<category></category>的定义可以将各个包中的类日志输出到不同的日志文件中 -->
-	<category name="org.springframework">
+	<!-- <category name="org.springframework">
 		<priority value="error" />
 		<appender-ref ref="CONSOLE" />
 	</category>
-
+ 	-->
 	<!-- Root Logger -->
-	<root>
+	<!-- <root>
 		<level value="${rootLevel}"></level>
 		<appender-ref ref="CONSOLE" />
 		<appender-ref ref="DEFAULT-APPENDER" />
 		<appender-ref ref="ERROR-APPENDER" />
 	</root>
+	 -->
 </log4j:configuration>

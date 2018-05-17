@@ -22,6 +22,7 @@ import lombok.Cleanup;
 @Repository("hdfsDAO")
 public class HdfsDAO {
 
+	private final static String BASE_URI = "hdfs://godfather.mascot.com.cn:9000/CampusCloud/";
 	private final static String basePath = "/CampusCloud/";
 
 	/*

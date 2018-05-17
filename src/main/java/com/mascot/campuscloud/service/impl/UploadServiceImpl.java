@@ -87,6 +87,9 @@ public class UploadServiceImpl implements UploadService {
 	@Override
 	@Transactional(isolation = Isolation.SERIALIZABLE)
 	public synchronized Map<String, Object> serveLastPart(LocalFileDO localFile, FileDO file) throws IOException {
+		/* 添加到上传该文件到hdfs中的任务队列中，异步上传文件到hdfs中 */
+		// todo
+		
 		/* 保存新上传文件的信息 */
 		file.setUrl(URL_ROOT + file.getMd5());
 		file.setLdtCreate(LocalDateTime.now());

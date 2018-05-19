@@ -25,12 +25,7 @@ public class HdfsConn {
 			// Because of Maven
 			configuration.set("fs.hdfs.impl", org.apache.hadoop.hdfs.DistributedFileSystem.class.getName());
 			// configuration.set("fs.file.impl", org.apache.hadoop.fs.LocalFileSystem.class.getName());
-			// Set HADOOP user
-			// System.setProperty("HADOOP_USER_NAME", "root");
-			// System.setProperty("hadoop.home.dir", "/");
 			// Get the filesystem - HDFS
-			fileSystem = FileSystem.get(URI.create(hdfsuri), configuration);
-
 			URI uri = URI.create("hdfs://godfather.mascot.com.cn:9000/");
 			fileSystem = FileSystem.get(uri, configuration, "root");
 

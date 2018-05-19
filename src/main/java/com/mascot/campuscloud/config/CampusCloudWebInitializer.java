@@ -12,6 +12,7 @@ import javax.servlet.ServletRegistration.Dynamic;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.filter.CharacterEncodingFilter;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
+import org.springframework.web.util.WebAppRootListener;
 
 @Configuration
 public class CampusCloudWebInitializer extends AbstractAnnotationConfigDispatcherServletInitializer {
@@ -67,6 +68,7 @@ public class CampusCloudWebInitializer extends AbstractAnnotationConfigDispatche
 	@Override
 	public void onStartup(ServletContext servletContext) throws ServletException {
 		System.out.println("startup");
+		servletContext.addListener(WebAppRootListener.class);
 		FilterRegistration.Dynamic characterEncodingFilter = servletContext.addFilter("encodingFilter",
 				CharacterEncodingFilter.class);
 		characterEncodingFilter.setInitParameter("encoding", String.valueOf(StandardCharsets.UTF_8));

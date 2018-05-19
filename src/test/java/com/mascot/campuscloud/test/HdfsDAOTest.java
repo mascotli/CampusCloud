@@ -44,13 +44,13 @@ public class HdfsDAOTest {
 		file.setMd5("031440222");
 		file.setSize(676745L);
 		file.setType("video");
-		file.setUrl("hdfs://godfather.mascot.com.cn:9000/user/root/CampusCloud/31440222/video/");
+		file.setUrl("hdfs://godfather.mascot.com.cn:9000/CampusCloudStorage/31440222/video/");
 		user.setId(031440222L);
 		user.setLdtCreate(LocalDateTime.now());
 		user.setLdtModified(LocalDateTime.now());
 		user.setNickname("Mascot.Lee");
 		user.setPassword("365346458768");
-		user.setPhotoURL("hdfs://godfather.mascot.com.cn:9000/user/root/CampusCloud/31440222/photo/head.png");
+		user.setPhotoURL("hdfs://godfather.mascot.com.cn:9000/CampusCloudStorage/31440222/photo/head.png");
 		user.setUsername("Mascot.Lee");
 		user.setUsedCapacity(0L);
 		try {

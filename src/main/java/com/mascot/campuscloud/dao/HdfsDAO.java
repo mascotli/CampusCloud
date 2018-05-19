@@ -35,7 +35,8 @@ public class HdfsDAO {
 	 * @return
 	 */
 	private String formatPathMethod(Long userId, String file) {
-		return basePath + userId + File.pathSeparator + file;
+		return basePath + userId + Path.SEPARATOR + file;
+		// return basePath + userId + File.pathSeparator + file;
 	}
 
 	/**

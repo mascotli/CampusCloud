@@ -18,6 +18,21 @@
 
 <configuration>
     <property>
+        <name>dfs.datanode.address</name>
+	<value>godfather.mascot.com.cn:50010</value>
+    </property>
+
+    <property>
+        <name>dfs.datanode.http.address</name>
+        <value>godfather.mascot.com.cn:50075</value>
+    </property>
+
+    <property>
+        <name>dfs.datanode.ipc.address</name>
+        <value>godfather.mascot.com.cn:50020</value>
+    </property>
+
+    <property>
         <name>dfs.namenode.name.dir</name>
         <value>file:/opt/cloud/hadoop_space/dfs/name</value>
         <final>true</final>
@@ -35,7 +50,12 @@
         </description>
         <final>true</final>
     </property>
-    
+
+    <property>
+        <name>dfs.namenode.maintenance.replication.min</name>
+	<value>1</value>
+    </property>
+
     <property>
         <name>dfs.replication</name>
         <value>1</value>

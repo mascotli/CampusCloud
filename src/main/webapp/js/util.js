@@ -35,10 +35,13 @@ function getFileIcon(suffix) {
 	suffix = suffix.toLowerCase();
 	var src = "img/icon/";
 	switch(suffix) {
+		case "c":case "cpp":case "java":case "py":case "php":case "js":case "css": src += "code";break;
         case "jpg": case "png": case "gif": case "jpeg":src += "picture";break;
+        case "zip":case "rar":case "7z":case "xz":case "gz": src += "zip";break;
         case "doc":case "docx": src += "word";break;
-        case "ppt": src += "ppt";break;
-        case "xls": src += "xls";break;
+        case "ppt":case "pptx": src += "ppt";break;
+        case "xls":case "xlsx": src += "xls";break;        
+        case "pdf": src += "pdf";break;
         case "txt": src += "txt";break;
     	case "mp4": src += "video";break;
     	case "mp3": src += "music";break;

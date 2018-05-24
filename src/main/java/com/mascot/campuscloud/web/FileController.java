@@ -1,9 +1,11 @@
 package com.mascot.campuscloud.web;
 
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
@@ -21,8 +23,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.mascot.campuscloud.dao.entity.FileDO;
 import com.mascot.campuscloud.dao.entity.LocalFileDO;
+import com.mascot.campuscloud.dao.entity.UserDO;
 import com.mascot.campuscloud.manager.validation.ParamChecker;
 import com.mascot.campuscloud.service.DownloadService;
+import com.mascot.campuscloud.service.FileService;
+import com.mascot.campuscloud.service.StorageService;
 import com.mascot.campuscloud.service.UploadService;
 import com.mascot.campuscloud.web.reqbody.UploadReqBody;
 
@@ -33,6 +38,8 @@ public class FileController {
 	private UploadService uploadService;
 	@Autowired
 	private DownloadService downloadService;
+	@Resource(name = "hdfsStorageService")
+	private StorageService hdfsStorageService;
 	@Autowired
 	private ModelMapper modelMapper;
 	@Autowired
@@ -68,6 +75,14 @@ public class FileController {
 		/* 处理没有Content-Range请求头的小文件 */
 		if (contentRange == null && part.getSize() <= MAX_CHUNK_SIZE) {
 			LocalFileDO localFile = modelMapper.map(reqbody, LocalFileDO.class);
+			/* 添加到上传该文件到hdfs中的任务队列中，异步上传文件到hdfs中 */
+			FileDO file = new FileDO();
+			file.setMd5(reqbody.getMd5());
+			file.setType(part.getHeader("content-type"));
+			file.setSize(size);
+			UserDO user = new UserDO();
+			user.setId(reqbody.getUserID());
+			hdfsStorageService.store(new FileInputStream(FileService.FILE_BASE + file.getMd5()), file, user);
 			return uploadService.serveSmallFile(part, reqbody.getMd5(), localFile);
 		}
 
@@ -81,6 +96,10 @@ public class FileController {
 			file.setSize(size);
 			LocalFileDO localFile = modelMapper.map(reqbody, LocalFileDO.class);
 			uploadService.savePart(part, reqbody.getMd5());
+			/* 添加到上传该文件到hdfs中的任务队列中，异步上传文件到hdfs中 */
+			UserDO user = new UserDO();
+			user.setId(reqbody.getUserID());
+			hdfsStorageService.store(new FileInputStream(FileService.FILE_BASE + file.getMd5()), file, user);
 			return uploadService.serveLastPart(localFile, file);
 		} else {
 			uploadService.savePart(part, reqbody.getMd5());

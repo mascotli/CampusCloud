@@ -23,6 +23,7 @@ public class AppWideExceptionHandler {
     
     @ExceptionHandler(value = Exception.class)
     public String handleInternelServerException(Exception ex) {
+    	ex.printStackTrace();
     	// System.out.println("error");
         return "errors/404";
     }

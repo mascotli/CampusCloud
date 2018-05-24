@@ -15,4 +15,9 @@ public interface DownloadService extends FileService {
 	 * 将所有文件及文件夹打包成一个zip文件返回给客户端
 	 */
 	void download(List<Long> files, List<Long> folders, OutputStream out) throws IOException;
+	
+	/**
+	 * 单个文件直接下载，不打包
+	 */
+	void download(Long file, OutputStream out) throws IOException;
 }

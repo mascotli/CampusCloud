@@ -49,7 +49,7 @@ public class HdfsDAO {
 	 * @throws IllegalArgumentException
 	 */
 	public void put(InputStream inputStream, FileDO file, UserDO user) throws IllegalArgumentException, IOException {
-		String formatPath = formatPathMethod(user.getId(), file.getType() + File.pathSeparator + file.getMd5());
+		String formatPath = formatPathMethod(user.getId(), file.getType() + Path.SEPARATOR + file.getMd5());
 		OutputStream outputStream = HdfsConn.getFileSystem().create(new Path(formatPath), new Progressable() {
 			@Override
 			public void progress() {
@@ -67,7 +67,7 @@ public class HdfsDAO {
 	}
 
 	public void delete(FileDO file, UserDO user) throws IllegalArgumentException, IOException {
-		String formatPath = formatPathMethod(user.getId(), file.getType() + File.pathSeparator + file.getMd5());
+		String formatPath = formatPathMethod(user.getId(), file.getType() + Path.SEPARATOR + file.getMd5());
 		if (HdfsConn.getFileSystem().exists(new Path(formatPath))) {
 			// hdfs文件删除并不会立即删除库中的文件，仅仅将文件转移到/trash目录中
 			HdfsConn.getFileSystem().delete(new Path(formatPath), true);
@@ -75,8 +75,8 @@ public class HdfsDAO {
 	}
 
 	public void rename(FileDO file, UserDO user, String newname) throws IllegalArgumentException, IOException {
-		String formatPath = formatPathMethod(user.getId(), file.getType() + File.pathSeparator + file.getMd5());
-		String newformatPath = formatPathMethod(user.getId(), file.getType() + File.pathSeparator + newname);
+		String formatPath = formatPathMethod(user.getId(), file.getType() + Path.SEPARATOR + file.getMd5());
+		String newformatPath = formatPathMethod(user.getId(), file.getType() + Path.SEPARATOR + newname);
 		if (HdfsConn.getFileSystem().exists(new Path(formatPath))) {
 			HdfsConn.getFileSystem().rename(new Path(formatPath), new Path(newformatPath));
 		}
@@ -84,7 +84,7 @@ public class HdfsDAO {
 
 	public boolean download(UserDO user, FileDO file, String local) {
 		try {
-			String formatPath = formatPathMethod(user.getId(), file.getType() + File.pathSeparator + file.getMd5());
+			String formatPath = formatPathMethod(user.getId(), file.getType() + Path.SEPARATOR + file.getMd5());
 			if (HdfsConn.getFileSystem().exists(new Path(formatPath))) {
 				@Cleanup FSDataInputStream inputStream = HdfsConn.getFileSystem().open(new Path(formatPath));
 				@Cleanup OutputStream outputStream = new FileOutputStream(local);
@@ -103,9 +103,9 @@ public class HdfsDAO {
 	public void copyOrMove(UserDO user, FileDO sourceFile, FileDO destFile, boolean flag)
 			throws IllegalArgumentException, IOException {
 		String sourceFormatPath = formatPathMethod(user.getId(),
-				sourceFile.getType() + File.pathSeparator + sourceFile.getMd5());
+				sourceFile.getType() + Path.SEPARATOR + sourceFile.getMd5());
 		String destFormatPath = formatPathMethod(user.getId(),
-				destFile.getType() + File.pathSeparator + destFile.getMd5());
+				destFile.getType() + Path.SEPARATOR + destFile.getMd5());
 		FileUtil.copy(HdfsConn.getFileSystem(), new Path(sourceFormatPath), HdfsConn.getFileSystem(),
 				new Path(destFormatPath), flag, true, HdfsConn.getConfiguration());
 	}

@@ -106,6 +106,12 @@ public class DownloadServiceImpl implements DownloadService {
 			zos.close();
 		}
 	}
+	
+	@Override
+	@Transactional(readOnly = true)
+	public void download(Long fileID, OutputStream out) throws IOException {
+
+	}
 
 	/**
 	 * 生成当前文件夹路径，若文件夹为空，将其路径加入emptyFolderList
@@ -161,4 +167,5 @@ public class DownloadServiceImpl implements DownloadService {
 		FileDO file = fileDAO.get(localFile.getFileID());
 		filePathMap.put(filePath, FILE_BASE + file.getMd5());
 	}
+
 }

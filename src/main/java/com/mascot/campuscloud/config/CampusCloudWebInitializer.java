@@ -9,12 +9,16 @@ import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRegistration.Dynamic;
 
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.filter.CharacterEncodingFilter;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 import org.springframework.web.util.WebAppRootListener;
 
+import com.mascot.campuscloud.manager.constant.StorageProperties;
+
 @Configuration
+@EnableConfigurationProperties(StorageProperties.class)
 public class CampusCloudWebInitializer extends AbstractAnnotationConfigDispatcherServletInitializer {
 
 	private String MULTIPART_LOCATION = "";
